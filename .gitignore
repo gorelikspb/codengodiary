@@ -1,7 +1,0 @@
-# Игнорируем всё кроме output/public/
-*
-!.gitignore
-!output/
-output/*
-!output/public
-!output/public/**

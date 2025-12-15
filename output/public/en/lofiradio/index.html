@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="FjUZ6hoHjNAZ783fB-eBOua9Up64i7T4vHaloHMWYVY" />
+    <title>lofiradio - Development Diary</title>
+    <meta name="description" content="Боль: Хочется просто включить музыку и работать, но все существующие решения либо с рекламой, либо нестабильны, либо не работают в фоне. Google выдает "Lofi rad">
+    <meta name="keywords" content="lofiradio, development, development diary, стартап">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        
+        .language-switcher a {
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            margin: 0 5px;
+            transition: background 0.3s;
+            display: inline-block;
+        }
+        
+        .language-switcher a:hover {
+            background: #2980b9;
+        }
+        
+        .language-switcher a.active {
+            background: #2c3e50;
+        }
+        
+        .back-link {
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+        
+        .back-link a {
+            color: #3498db;
+            text-decoration: none;
+            border-bottom: 1px solid #3498db;
+        }
+        
+        .back-link a:hover {
+            border-bottom-color: #2980b9;
+        }
+        
+        .stage {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .stage:last-child {
+            border-bottom: none;
+        }
+        
+        .stage-header {
+            margin-bottom: 20px;
+        }
+        
+        .stage-date {
+            color: #95a5a6;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .stage-title {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        
+        .stage-section {
+            margin-bottom: 25px;
+        }
+        
+        .stage-section h3 {
+            color: #34495e;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .stage-section p {
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+        
+        .stage-section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .stage-section li {
+            margin-bottom: 8px;
+        }
+        
+        .screenshots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .screenshot {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .screenshot img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .screenshot-tall-wrapper {
+            position: relative;
+        }
+        
+        .screenshot-tall {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .screenshot-tall:hover {
+            opacity: 0.8;
+        }
+        
+        .screenshot-expand {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background 0.3s;
+            z-index: 10;
+        }
+        
+        .screenshot-expand:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        .screenshot-caption {
+            padding: 10px;
+            background: #f8f9fa;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+        
+        .what-done-list {
+            list-style: none;
+            margin-left: 0;
+        }
+        
+        .what-done-list li {
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .what-done-list li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+        
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .stage-title {
+                font-size: 1.5em;
+            }
+            
+            .screenshots {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="language-switcher">
+            <a href="../../ru/lofiradio/index.html" class="">RU</a>
+            <a href="index.html" class="active">EN</a>
+        </div>
+        
+        <div class="back-link"><a href="../index.html">← Other projects</a></div>
+        
+        <h1>lofiradio</h1>
+        <p class="subtitle">Development Diary</p>
+        
+        <div class="stage-section" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 40px;"><h3 style="margin-top: 0;">About the project</h3><div id="project-description-lofiradio-log-short" style="display: block;"><p>Pain: Want to just turn on music and work, but all existing solutions either have ads, are unstable, or don&#39;t work in the background. Google shows &quot;Lofi radio&quot;, but the first link often doesn&#39;t work, then you have to listen to ads. YouTube doesn&#39;t work in the background. Need something simple — one click and music plays.</p>
+<p>Hence the idea: <strong>make your own simple player without ads that works in the background</strong>.</p>
+<h2>What&#39;s next?</h2>
+<p>First thought about streams and external APIs, but quickly came to the understanding that this is unstable and loads slowly.</p>
+<p>Main thing now — get a stable solution without ads.</p>
+<p>So the idea simplified to <strong>local MP3 files and simple HTML5 player</strong>:</p> <a href="#" onclick="document.getElementById('project-description-lofiradio-log-short').style.display='none'; document.getElementById('project-description-lofiradio-log-full').style.display='block'; return false;" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">Read more</a></div><div id="project-description-lofiradio-log-full" style="display: none;"><p>Pain: Want to just turn on music and work, but all existing solutions either have ads, are unstable, or don&#39;t work in the background. Google shows &quot;Lofi radio&quot;, but the first link often doesn&#39;t work, then you have to listen to ads. YouTube doesn&#39;t work in the background. Need something simple — one click and music plays.</p>
+<p>Hence the idea: <strong>make your own simple player without ads that works in the background</strong>.</p>
+<h2>What&#39;s next?</h2>
+<p>First thought about streams and external APIs, but quickly came to the understanding that this is unstable and loads slowly.</p>
+<p>Main thing now — get a stable solution without ads.</p>
+<p>So the idea simplified to <strong>local MP3 files and simple HTML5 player</strong>:</p>
+<ul>
+<li>One click — music plays</li>
+<li>No ads</li>
+<li>Works in background</li>
+<li>Fast loading</li>
+</ul>
+<h2>What we came to</h2>
+<ul>
+<li>Need to start with <strong>local tracks</strong> (5-10 pieces) to test the concept.</li>
+</ul>
+<ul>
+<li>First version — <strong>simple static site</strong> with HTML5 Audio API, no backend.</li>
+</ul>
+<ul>
+<li>Playlist stored in <strong>JSON file</strong>, easy to add tracks.</li>
+</ul>
+<ul>
+<li>Deploy on <strong>Cloudflare Pages</strong> — free and fast.</li>
+</ul>
+<h2>What&#39;s next (very briefly)</h2>
+<ul>
+<li>✅ Make basic player with Play/Pause</li>
+<li>✅ Add controls (Previous/Next, track time, likes)</li>
+<li>✅ Deploy on Cloudflare Pages</li>
+<li>After concept validation — can add more tracks, PWA, visualization</li>
+</ul>
+ <a href="#" onclick="document.getElementById('project-description-lofiradio-log-full').style.display='none'; document.getElementById('project-description-lofiradio-log-short').style.display='block'; return false;" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">Collapse</a></div></div>
+        
+        
+        
+        <div class="stage-section" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 40px;"><h3 style="margin-top: 0;">Table of Contents</h3><ul style="list-style: none; padding-left: 0;"><li style="margin-bottom: 10px;"><a href="#stage-0" style="color: #2c3e50; text-decoration: none; border-bottom: 1px solid #3498db; padding-bottom: 2px;">Stage 1: Basic Player Creation</a></li><li style="margin-bottom: 10px;"><a href="#stage-1" style="color: #2c3e50; text-decoration: none; border-bottom: 1px solid #3498db; padding-bottom: 2px;">Stage 2: Adding Control Features</a></li></ul></div>
+        
+        <div class="stage" id="stage-0"><div class="stage-header"><div class="stage-date">2025-01-08</div><h2 class="stage-title">Stage 1: Basic Player Creation</h2></div><div class="stage-section"><h3>What was needed</h3><p>Needed a simple solution for listening to lofi music without ads and delays.</p>
+</div><div class="stage-section"><h3>Solution</h3><p>Created a simple web player with local MP3 files instead of streams.</p>
+</div><div class="stage-section"><h3>Why this solution</h3><ul>
+<li>Local files load instantly (no delays)</li>
+<li>No dependency on external streams (which can be unstable)</li>
+<li>Full control over content</li>
+<li>Works in background (HTML5 Audio API)</li>
+</ul>
+</div><div class="stage-section"><h3>Pros</h3><ul>
+<li>✅ Fast track loading</li>
+<li>✅ Stable operation</li>
+<li>✅ No ads</li>
+<li>✅ Works in background</li>
+<li>✅ Simple interface (one Play button)</li>
+</ul>
+</div><div class="stage-section"><h3>Cons</h3><ul>
+<li>❌ Need to store files (but 5-10 tracks is fine)</li>
+<li>❌ Limited track selection (but can be expanded)</li>
+</ul>
+</div><div class="stage-section"><h3>Gotchas</h3><ul>
+<li>GitHub doesn&#39;t accept files &gt;100MB (had to exclude one large track)</li>
+<li>Need local server for development (due to CORS when opening via file://)</li>
+</ul>
+</div><div class="stage-section"><h3>What was done</h3><ul class="what-done-list"><li>Created HTML5 Audio player</li><li>Added local MP3 files</li><li>Implemented Play/Pause button</li><li>Configured automatic track loading</li></ul></div></div><div class="stage" id="stage-1"><div class="stage-header"><div class="stage-date">2025-01-08</div><div style="margin-bottom: 10px; font-size: 0.9em;"><a href="#stage-0" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Previous stage: Stage 1: Basic Player Creation</a></div><h2 class="stage-title">Stage 2: Adding Control Features</h2></div><div class="stage-section"><h3>What was needed</h3><p>The basic player worked, but lacked convenient controls.</p>
+</div><div class="stage-section"><h3>Solution</h3><p>Added:</p>
+<ul>
+<li>Previous/next track buttons</li>
+<li>Track time display (currentTime / duration)</li>
+<li>Like button with localStorage saving</li>
+<li>Automatic track switching</li>
+</ul>
+</div><div class="stage-section"><h3>Why this solution</h3><ul>
+<li>Standard features of any player</li>
+<li>Likes are saved locally (no backend needed)</li>
+</ul>
+</div><div class="stage-section"><h3>Pros</h3><ul>
+<li>✅ Convenient controls</li>
+<li>✅ Shows how long the track has been playing</li>
+<li>✅ Can mark favorite tracks</li>
+<li>✅ Automatic switching</li>
+</ul>
+</div><div class="stage-section"><h3>Cons</h3><ul>
+<li>❌ Likes only locally (not synchronized between devices)</li>
+</ul>
+</div><div class="stage-section"><h3>Gotchas</h3><ul>
+<li>Had to properly handle audio events (timeupdate, loadedmetadata)</li>
+</ul>
+</div><div class="stage-section"><h3>What was done</h3><ul class="what-done-list"><li>Added control buttons (previous/next)</li><li>Track time display</li><li>Like button with saving</li><li>Automatic track switching</li></ul></div><div class="stage-section"><div class="screenshots"><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/02-player-playing.png" alt="Player playing (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Player playing (EN)</div></div></div></div></div>
+        
+        <footer><p><a href="../index.html" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Other projects</a></p></footer>
+    </div>
+    
+    <script>
+        function openScreenshotInNewWindow(imageId) {
+            const img = document.getElementById(imageId);
+            const imageSrc = img.getAttribute('data-full-image');
+            // Открываем изображение в новом окне
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>${img.alt}</title>
+                    <style>
+                        body {
+                            margin: 0;
+                            padding: 20px;
+                            background: #1a1a1a;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            min-height: 100vh;
+                        }
+                        img {
+                            max-width: 100%;
+                            max-height: 100vh;
+                            object-fit: contain;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <img src="${imageSrc}" alt="${img.alt}">
+                </body>
+                </html>
+            `);
+            newWindow.document.close();
+        }
+        
+        // Добавляем обработчик клика на изображения при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            const tallImages = document.querySelectorAll('.screenshot-tall');
+            tallImages.forEach(img => {
+                img.addEventListener('click', function() {
+                    openScreenshotInNewWindow(img.id);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

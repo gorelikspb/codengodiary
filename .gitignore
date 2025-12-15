@@ -3,4 +3,5 @@
 !.gitignore
 !output/
 output/*
-!output/public/
+!output/public
+!output/public/**

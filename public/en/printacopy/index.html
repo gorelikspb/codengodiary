@@ -7,7 +7,9 @@
     <title>printacopy - Development Diary</title>
     <meta name="description" content="Боль: надо быстро что-то распечатать, а принтера под рукой нет. Заводить принтер ради одной странички - нерентабельно.  При этом вокруг полно мест, где стоят по">
     <meta name="keywords" content="printacopy, development, development diary, стартап">
-    
+    <link rel="canonical" href="https://printacopy.pages.dev">
+    <meta property="og:url" content="https://printacopy.pages.dev">
+    <meta name="twitter:url" content="https://printacopy.pages.dev">
     <style>
         * {
             margin: 0;
@@ -300,11 +302,11 @@
 </ul>
  <a href="#" onclick="document.getElementById('project-description-printacopy-log-full').style.display='none'; document.getElementById('project-description-printacopy-log-short').style.display='block'; return false;" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">Collapse</a></div></div>
         
-        
+        <p>Current implementation at: <a href="https://printacopy.pages.dev" target="_blank" rel="noopener noreferrer">https://printacopy.pages.dev</a></p>
         
         <div class="stage-section" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 40px;"><h3 style="margin-top: 0;">Table of Contents</h3><ul style="list-style: none; padding-left: 0;"><li style="margin-bottom: 10px;"><a href="#stage-0" style="color: #2c3e50; text-decoration: none; border-bottom: 1px solid #3498db; padding-bottom: 2px;">Stage 2: Email Integration and Additional Features</a></li><li style="margin-bottom: 10px;"><a href="#stage-1" style="color: #2c3e50; text-decoration: none; border-bottom: 1px solid #3498db; padding-bottom: 2px;">Stage 1: Creating Static Landing Page</a></li></ul></div>
         
-        <div class="stage" id="stage-0"><div class="stage-header"><h2 class="stage-title">Stage 2: Email Integration and Additional Features</h2></div><div class="stage-section"><h3>What was needed</h3><p>After creating basic landing page, needed to add:</p>
+        <div class="stage" id="stage-0"><div class="stage-header"><div style="margin-bottom: 15px; padding: 12px; background: #e8f4f8; border-left: 4px solid #3498db; border-radius: 4px;"><strong style="color: #2c3e50;">Working version:</strong> <a href="https://printacopy.pages.dev" target="_blank" rel="noopener noreferrer" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db; font-weight: 500;">View project printacopy</a></div><h2 class="stage-title">Stage 2: Email Integration and Additional Features</h2></div><div class="stage-section"><h3>What was needed</h3><p>After creating basic landing page, needed to add:</p>
 <ul>
 <li>Multilingual support (Russian, English, German)</li>
 <li>City autocomplete</li>
@@ -356,7 +358,7 @@
 <li>Solution: all emails go to admin for now, who collects data in table for manual mailing</li>
 <li>IP language detection may be inaccurate, so cascade used: URL → localStorage → browser → IP → default (DE)</li>
 </ul>
-</div><div class="stage-section"><h3>What was done</h3><ul class="what-done-list"><li>Added support for three languages (DE/EN/RU)</li><li>Implemented language switcher (dropdown)</li><li>Added automatic language detection</li><li>Implemented city autocomplete (80+ German cities)</li><li>Set &quot;Konstanz&quot; as default city</li><li>Integrated Cloudflare Worker for email sending</li><li>Configured Resend API for sending emails</li><li>Added favicon</li><li>Updated translations (German to &quot;du&quot;/impersonal forms)</li><li>Dynamic page title</li></ul></div></div><div class="stage" id="stage-1"><div class="stage-header"><div style="margin-bottom: 10px; font-size: 0.9em;"><a href="#stage-0" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Previous stage: Stage 2: Email Integration and Additional Features</a></div><h2 class="stage-title">Stage 1: Creating Static Landing Page</h2></div><div class="stage-section"><h3>What was needed</h3><p>Needed to create a simple static landing site that sells the service idea to both sides (users and printer owners).</p>
+</div><div class="stage-section"><h3>What was done</h3><ul class="what-done-list"><li>Added support for three languages (DE/EN/RU)</li><li>Implemented language switcher (dropdown)</li><li>Added automatic language detection</li><li>Implemented city autocomplete (80+ German cities)</li><li>Set &quot;Konstanz&quot; as default city</li><li>Integrated Cloudflare Worker for email sending</li><li>Configured Resend API for sending emails</li><li>Added favicon</li><li>Updated translations (German to &quot;du&quot;/impersonal forms)</li><li>Dynamic page title</li></ul></div><div style="margin-top: 30px; padding: 15px; background: #f0f8ff; border-left: 4px solid #3498db; border-radius: 4px; text-align: center;"><a href="https://printacopy.pages.dev" target="_blank" rel="noopener noreferrer" style="color: #3498db; text-decoration: none; border-bottom: 2px solid #3498db; font-weight: 600; font-size: 1.1em;">Try it now: printacopy</a></div></div><div class="stage" id="stage-1"><div class="stage-header"><div style="margin-bottom: 15px; padding: 12px; background: #e8f4f8; border-left: 4px solid #3498db; border-radius: 4px;"><strong style="color: #2c3e50;">Working version:</strong> <a href="https://printacopy.pages.dev" target="_blank" rel="noopener noreferrer" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db; font-weight: 500;">View project printacopy</a></div><div style="margin-bottom: 10px; font-size: 0.9em;"><a href="#stage-0" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Previous stage: Stage 2: Email Integration and Additional Features</a></div><h2 class="stage-title">Stage 1: Creating Static Landing Page</h2></div><div class="stage-section"><h3>What was needed</h3><p>Needed to create a simple static landing site that sells the service idea to both sides (users and printer owners).</p>
 </div><div class="stage-section"><h3>Solution</h3><p>Created single-page landing with 4 main blocks:</p>
 <ul>
 <li>Header with call to action and two buttons</li>
@@ -397,7 +399,7 @@
 <li>Will need to add backend for real data processing in future</li>
 <li>Made responsive design from start to avoid redoing later</li>
 </ul>
-</div><div class="stage-section"><h3>What was done</h3><ul class="what-done-list"><li>Created single-page landing (index.html)</li><li>Implemented all 4 blocks according to requirements</li><li>Added two working forms (for users and printer owners)</li><li>Implemented responsive design for mobile devices</li><li>Added smooth scrolling to sections</li><li>Forms save data to LocalStorage (demo mode)</li><li>Modern UI with gradients and animations</li></ul></div></div>
+</div><div class="stage-section"><h3>What was done</h3><ul class="what-done-list"><li>Created single-page landing (index.html)</li><li>Implemented all 4 blocks according to requirements</li><li>Added two working forms (for users and printer owners)</li><li>Implemented responsive design for mobile devices</li><li>Added smooth scrolling to sections</li><li>Forms save data to LocalStorage (demo mode)</li><li>Modern UI with gradients and animations</li></ul></div><div style="margin-top: 30px; padding: 15px; background: #f0f8ff; border-left: 4px solid #3498db; border-radius: 4px; text-align: center;"><a href="https://printacopy.pages.dev" target="_blank" rel="noopener noreferrer" style="color: #3498db; text-decoration: none; border-bottom: 2px solid #3498db; font-weight: 600; font-size: 1.1em;">Try it now: printacopy</a></div></div>
         
         <footer><p><a href="../index.html" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Other projects</a></p></footer>
     </div>

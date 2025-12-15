@@ -7,7 +7,9 @@
     <title>printacopy - Дневник разработки</title>
     <meta name="description" content="Боль: надо быстро что-то распечатать, а принтера под рукой нет. Заводить принтер ради одной странички - нерентабельно.  При этом вокруг полно мест, где стоят по">
     <meta name="keywords" content="printacopy, разработка, дневник разработки, стартап">
-    
+    <link rel="canonical" href="https://printacopy.pages.dev">
+    <meta property="og:url" content="https://printacopy.pages.dev">
+    <meta name="twitter:url" content="https://printacopy.pages.dev">
     <style>
         * {
             margin: 0;
@@ -294,11 +296,11 @@
 </ul>
  <a href="#" onclick="document.getElementById('project-description-printacopy-log-full').style.display='none'; document.getElementById('project-description-printacopy-log-short').style.display='block'; return false;" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">Свернуть</a></div></div>
         
-        
+        <p>Текущая реализация на: <a href="https://printacopy.pages.dev" target="_blank" rel="noopener noreferrer">https://printacopy.pages.dev</a></p>
         
         <div class="stage-section" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 40px;"><h3 style="margin-top: 0;">Оглавление</h3><ul style="list-style: none; padding-left: 0;"><li style="margin-bottom: 10px;"><a href="#stage-0" style="color: #2c3e50; text-decoration: none; border-bottom: 1px solid #3498db; padding-bottom: 2px;">Интеграция email и дополнительные функции</a></li><li style="margin-bottom: 10px;"><a href="#stage-1" style="color: #2c3e50; text-decoration: none; border-bottom: 1px solid #3498db; padding-bottom: 2px;">Создание статического лендинга</a></li></ul></div>
         
-        <div class="stage" id="stage-0"><div class="stage-header"><h2 class="stage-title">Интеграция email и дополнительные функции</h2></div><div class="stage-section"><h3>Что было</h3><p>После создания базового лендинга нужно было добавить:</p>
+        <div class="stage" id="stage-0"><div class="stage-header"><div style="margin-bottom: 15px; padding: 12px; background: #e8f4f8; border-left: 4px solid #3498db; border-radius: 4px;"><strong style="color: #2c3e50;">Рабочая версия:</strong> <a href="https://printacopy.pages.dev" target="_blank" rel="noopener noreferrer" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db; font-weight: 500;">Посмотреть проект printacopy</a></div><h2 class="stage-title">Интеграция email и дополнительные функции</h2></div><div class="stage-section"><h3>Что было</h3><p>После создания базового лендинга нужно было добавить:</p>
 <ul>
 <li>Многоязычность (русский, английский, немецкий)</li>
 <li>Автодополнение городов</li>
@@ -350,7 +352,7 @@
 <li>Решение: пока все письма приходят админу, который собирает данные в таблицу для ручной рассылки</li>
 <li>IP-определение языка может быть неточным, поэтому используется каскад: URL → localStorage → браузер → IP → дефолт (DE)</li>
 </ul>
-</div><div class="stage-section"><h3>Что сделано</h3><ul class="what-done-list"><li>Добавлена поддержка трёх языков (DE/EN/RU)</li><li>Реализован переключатель языков (dropdown)</li><li>Добавлено автоматическое определение языка</li><li>Реализовано автодополнение городов (80+ немецких городов)</li><li>Установлен город &quot;Konstanz&quot; по умолчанию</li><li>Интегрирован Cloudflare Worker для отправки email</li><li>Настроен Resend API для отправки писем</li><li>Добавлен favicon</li><li>Обновлены переводы (немецкий на &quot;ты&quot;/безличные формы)</li><li>Динамический заголовок страницы</li></ul></div></div><div class="stage" id="stage-1"><div class="stage-header"><div style="margin-bottom: 10px; font-size: 0.9em;"><a href="#stage-0" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Предыдущий этап: Интеграция email и дополнительные функции</a></div><h2 class="stage-title">Создание статического лендинга</h2></div><div class="stage-section"><h3>Что было</h3><p>Нужно было создать простой статический сайт-лендинг, который продаёт идею сервиса обеим сторонам (пользователям и владельцам принтеров).</p>
+</div><div class="stage-section"><h3>Что сделано</h3><ul class="what-done-list"><li>Добавлена поддержка трёх языков (DE/EN/RU)</li><li>Реализован переключатель языков (dropdown)</li><li>Добавлено автоматическое определение языка</li><li>Реализовано автодополнение городов (80+ немецких городов)</li><li>Установлен город &quot;Konstanz&quot; по умолчанию</li><li>Интегрирован Cloudflare Worker для отправки email</li><li>Настроен Resend API для отправки писем</li><li>Добавлен favicon</li><li>Обновлены переводы (немецкий на &quot;ты&quot;/безличные формы)</li><li>Динамический заголовок страницы</li></ul></div><div style="margin-top: 30px; padding: 15px; background: #f0f8ff; border-left: 4px solid #3498db; border-radius: 4px; text-align: center;"><a href="https://printacopy.pages.dev" target="_blank" rel="noopener noreferrer" style="color: #3498db; text-decoration: none; border-bottom: 2px solid #3498db; font-weight: 600; font-size: 1.1em;">Попробовать сейчас: printacopy</a></div></div><div class="stage" id="stage-1"><div class="stage-header"><div style="margin-bottom: 15px; padding: 12px; background: #e8f4f8; border-left: 4px solid #3498db; border-radius: 4px;"><strong style="color: #2c3e50;">Рабочая версия:</strong> <a href="https://printacopy.pages.dev" target="_blank" rel="noopener noreferrer" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db; font-weight: 500;">Посмотреть проект printacopy</a></div><div style="margin-bottom: 10px; font-size: 0.9em;"><a href="#stage-0" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Предыдущий этап: Интеграция email и дополнительные функции</a></div><h2 class="stage-title">Создание статического лендинга</h2></div><div class="stage-section"><h3>Что было</h3><p>Нужно было создать простой статический сайт-лендинг, который продаёт идею сервиса обеим сторонам (пользователям и владельцам принтеров).</p>
 </div><div class="stage-section"><h3>Решение</h3><p>Создан одностраничный лендинг с 4 основными блоками:</p>
 <ul>
 <li>Хедер с призывом к действию и двумя кнопками</li>
@@ -391,7 +393,7 @@
 <li>В будущем нужно будет добавить бэкенд для реальной обработки данных</li>
 <li>Сделали адаптивный дизайн с самого начала, чтобы не переделывать позже</li>
 </ul>
-</div><div class="stage-section"><h3>Что сделано</h3><ul class="what-done-list"><li>Создан одностраничный лендинг (index.html)</li><li>Реализованы все 4 блока согласно требованиям</li><li>Добавлены две рабочие формы (для пользователей и владельцев принтеров)</li><li>Реализован адаптивный дизайн для мобильных устройств</li><li>Добавлена плавная прокрутка к секциям</li><li>Формы сохраняют данные в LocalStorage (демо-режим)</li><li>Современный UI с градиентами и анимациями</li></ul></div></div>
+</div><div class="stage-section"><h3>Что сделано</h3><ul class="what-done-list"><li>Создан одностраничный лендинг (index.html)</li><li>Реализованы все 4 блока согласно требованиям</li><li>Добавлены две рабочие формы (для пользователей и владельцев принтеров)</li><li>Реализован адаптивный дизайн для мобильных устройств</li><li>Добавлена плавная прокрутка к секциям</li><li>Формы сохраняют данные в LocalStorage (демо-режим)</li><li>Современный UI с градиентами и анимациями</li></ul></div><div style="margin-top: 30px; padding: 15px; background: #f0f8ff; border-left: 4px solid #3498db; border-radius: 4px; text-align: center;"><a href="https://printacopy.pages.dev" target="_blank" rel="noopener noreferrer" style="color: #3498db; text-decoration: none; border-bottom: 2px solid #3498db; font-weight: 600; font-size: 1.1em;">Попробовать сейчас: printacopy</a></div></div>
         
         <footer><p><a href="../index.html" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Другие проекты</a></p></footer>
     </div>

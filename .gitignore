@@ -1,6 +1,4 @@
-node_modules/
-output/
-*.log
-.DS_Store
-project-instructions/
-input_backed/
+# Игнорируем всё кроме output/
+*
+!.gitignore
+!output/

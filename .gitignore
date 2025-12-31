@@ -1,0 +1,5 @@
+# Игнорируем всё кроме public/
+*
+!.gitignore
+!public/
+!public/**

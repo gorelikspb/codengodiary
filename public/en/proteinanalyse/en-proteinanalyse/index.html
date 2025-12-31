@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="FjUZ6hoHjNAZ783fB-eBOua9Up64i7T4vHaloHMWYVY" />
+    <title>proteinanalyse - Development Diary</title>
+    <meta name="description" content="Изначальная мысль была довольно утилитарной: сделать что-то маленькое, понятное и сразу полезное в биоинформатике. Набор простых инструментов, которые можно реа">
+    <meta name="keywords" content="proteinanalyse, development, development diary, стартап">
+    <link rel="canonical" href="https://proteinanalysis.pages.dev">
+    <meta property="og:url" content="https://proteinanalysis.pages.dev">
+    <meta name="twitter:url" content="https://proteinanalysis.pages.dev">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        
+        .language-switcher a {
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            margin: 0 5px;
+            transition: background 0.3s;
+            display: inline-block;
+        }
+        
+        .language-switcher a:hover {
+            background: #2980b9;
+        }
+        
+        .language-switcher a.active {
+            background: #2c3e50;
+        }
+        
+        .back-link {
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+        
+        .back-link a {
+            color: #3498db;
+            text-decoration: none;
+            border-bottom: 1px solid #3498db;
+        }
+        
+        .back-link a:hover {
+            border-bottom-color: #2980b9;
+        }
+        
+        .stage {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .stage:last-child {
+            border-bottom: none;
+        }
+        
+        .stage-header {
+            margin-bottom: 20px;
+        }
+        
+        .stage-date {
+            color: #95a5a6;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .stage-title {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        
+        .stage-section {
+            margin-bottom: 25px;
+        }
+        
+        .stage-section h3 {
+            color: #34495e;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .stage-section p {
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+        
+        .stage-section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .stage-section li {
+            margin-bottom: 8px;
+        }
+        
+        .screenshots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .screenshot {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .screenshot img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .screenshot-tall-wrapper {
+            position: relative;
+        }
+        
+        .screenshot-tall {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .screenshot-tall:hover {
+            opacity: 0.8;
+        }
+        
+        .screenshot-expand {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background 0.3s;
+            z-index: 10;
+        }
+        
+        .screenshot-expand:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        .screenshot-caption {
+            padding: 10px;
+            background: #f8f9fa;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+        
+        .what-done-list {
+            list-style: none;
+            margin-left: 0;
+        }
+        
+        .what-done-list li {
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .what-done-list li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+        
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .stage-title {
+                font-size: 1.5em;
+            }
+            
+            .screenshots {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="language-switcher">
+            <a href="../../ru/proteinanalyse/index.html" class="">RU</a>
+            <a href="index.html" class="active">EN</a>
+        </div>
+        
+        <div class="back-link"><a href="../index.html">← Other projects</a></div>
+        
+        <h1>proteinanalyse</h1>
+        <p class="subtitle">Development Diary</p>
+        
+        <div class="stage-section" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 40px;"><h3 style="margin-top: 0;">About the project</h3><div id="project-description-proteinanalyse-log-short" style="display: block;"><p>The initial thought was quite utilitarian: make something small, clear, and immediately useful in bioinformatics. A set of simple tools that can actually be used — GC calculator, reverse complement, ORF finder, DNA to protein translation, protein mass calculation, etc. Such tools already exist, but often they were made ten years ago, look heavy and are sometimes inconvenient. Wanted to make something light, fast, and clean that just works in the browser.</p>
+<p>There was a feeling that you can gather an audience of biologists and students if you give them free and convenient tools. This is an &quot;entry point&quot;: and if the site helps, then a pool of users who are already used to the style can form.</p> <a href="#" onclick="document.getElementById('project-description-proteinanalyse-log-short').style.display='none'; document.getElementById('project-description-proteinanalyse-log-full').style.display='block'; return false;" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">Read more</a></div><div id="project-description-proteinanalyse-log-full" style="display: none;"><p>The initial thought was quite utilitarian: make something small, clear, and immediately useful in bioinformatics. A set of simple tools that can actually be used — GC calculator, reverse complement, ORF finder, DNA to protein translation, protein mass calculation, etc. Such tools already exist, but often they were made ten years ago, look heavy and are sometimes inconvenient. Wanted to make something light, fast, and clean that just works in the browser.</p>
+<p>There was a feeling that you can gather an audience of biologists and students if you give them free and convenient tools. This is an &quot;entry point&quot;: and if the site helps, then a pool of users who are already used to the style can form.</p>
+<p>In parallel, there is a deeper interest in bioinformatics. Ideally, want to come to something where there is data, analytics, models, and clear benefit — for example, tools for protein analysis, expression prediction, or sequence property assessment using machine learning. But now the main focus is to build a &quot;micro-ecosystem&quot; of simple utilities that already provide value without registration, server, and costs.</p>
+<p>Based on the results of initial SEO optimization, there is a plan to see what queries will come in, and based on feedback and user behavior, understand which direction makes sense to move.</p>
+ <a href="#" onclick="document.getElementById('project-description-proteinanalyse-log-full').style.display='none'; document.getElementById('project-description-proteinanalyse-log-short').style.display='block'; return false;" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">Collapse</a></div></div>
+        
+        <p>Current implementation at: <a href="https://proteinanalysis.pages.dev" target="_blank" rel="noopener noreferrer">https://proteinanalysis.pages.dev</a></p>
+        
+        <div class="stage-section" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 40px;"><h3 style="margin-top: 0;">Table of Contents</h3><ul style="list-style: none; padding-left: 0;"><li style="margin-bottom: 10px;"><a href="#stage-0" style="color: #2c3e50; text-decoration: none; border-bottom: 1px solid #3498db; padding-bottom: 2px;">Stage 1: Initial Concept (MVP)</a></li><li style="margin-bottom: 10px;"><a href="#stage-1" style="color: #2c3e50; text-decoration: none; border-bottom: 1px solid #3498db; padding-bottom: 2px;">Stage 2: Transition to Multi-page Architecture</a></li><li style="margin-bottom: 10px;"><a href="#stage-2" style="color: #2c3e50; text-decoration: none; border-bottom: 1px solid #3498db; padding-bottom: 2px;">Stage 3: Creating Common Function Library</a></li><li style="margin-bottom: 10px;"><a href="#stage-3" style="color: #2c3e50; text-decoration: none; border-bottom: 1px solid #3498db; padding-bottom: 2px;">Stage 4: Unified Style and Navigation</a></li><li style="margin-bottom: 10px;"><a href="#stage-4" style="color: #2c3e50; text-decoration: none; border-bottom: 1px solid #3498db; padding-bottom: 2px;">Stage 5: SEO Optimization for Each Page</a></li><li style="margin-bottom: 10px;"><a href="#stage-5" style="color: #2c3e50; text-decoration: none; border-bottom: 1px solid #3498db; padding-bottom: 2px;">Stage 6: Adding Sequence Examples</a></li><li style="margin-bottom: 10px;"><a href="#stage-6" style="color: #2c3e50; text-decoration: none; border-bottom: 1px solid #3498db; padding-bottom: 2px;">Stage 7: Adding New Tools and Improving Navigation</a></li></ul></div>
+        
+        <div class="stage" id="stage-0"><div class="stage-header"><h2 class="stage-title">Stage 1: Initial Concept (MVP)</h2></div><div class="stage-section"><h3>What was needed</h3><p>Initial task - create a simple single-page sequence analyzer.</p>
+</div><div class="stage-section"><h3>Solution</h3><p>Created <code>index.html</code> with basic functionality:</p>
+<ul>
+<li>Auto-detection of sequence type (DNA/Protein)</li>
+<li>Basic analysis for both types</li>
+<li>Minimalist design</li>
+</ul>
+</div><div class="stage-section"><h3>Pros</h3><ul>
+<li>Fast implementation</li>
+<li>Easy to use</li>
+<li>One file - easy to deploy</li>
+</ul>
+</div><div class="stage-section"><h3>Cons</h3><ul>
+<li>Limited SEO opportunities (only one page)</li>
+<li>No specialized tools</li>
+<li>Hard to rank for different keywords</li>
+</ul>
+</div><div class="stage-section"><h3>Gotchas</h3><ul>
+<li>One page = one set of keywords</li>
+<li>Hard to compete with more specialized tools</li>
+</ul>
+</div><div class="stage-section"><h3>What was done</h3><ul class="what-done-list"><li>Created <code>index.html</code> with basic functionality</li><li>Implemented sequence type auto-detection</li><li>Added basic analysis for DNA and Protein sequences</li></ul></div></div><div class="stage" id="stage-1"><div class="stage-header"><div style="margin-bottom: 10px; font-size: 0.9em;"><a href="#stage-0" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Previous stage: Stage 1: Initial Concept (MVP)</a></div><h2 class="stage-title">Stage 2: Transition to Multi-page Architecture</h2></div><div class="stage-section"><h3>What was needed</h3><p>Realization that for SEO we need separate pages for different keywords.</p>
+</div><div class="stage-section"><h3>Solution</h3><p>Split functionality into 6 specialized pages:</p>
+<ul>
+<li><code>/index.html</code> - main page (general analyzer)</li>
+<li><code>/dna-gc-calculator.html</code> - GC calculator</li>
+<li><code>/reverse-complement.html</code> - reverse complementary sequence</li>
+<li><code>/orf-finder.html</code> - ORF finder</li>
+<li><code>/protein-mw-calculator.html</code> - protein molecular weight</li>
+<li><code>/sequence-translation.html</code> - DNA translation</li>
+</ul>
+</div><div class="stage-section"><h3>Why this solution</h3><ul>
+<li>Each page optimized for specific keywords</li>
+<li>Users search for specific tools (&quot;GC calculator&quot;, &quot;ORF finder&quot;)</li>
+<li>More pages = more ranking opportunities</li>
+<li>Internal links improve SEO</li>
+</ul>
+</div><div class="stage-section"><h3>Pros</h3><ul>
+<li>✅ Better SEO coverage (6 pages instead of 1)</li>
+<li>✅ Specialization for specific queries</li>
+<li>✅ Internal linking</li>
+<li>✅ Users find exactly what they&#39;re looking for</li>
+</ul>
+</div><div class="stage-section"><h3>Cons</h3><ul>
+<li>❌ More files to maintain</li>
+<li>❌ Code duplication (if not using shared components)</li>
+</ul>
+</div><div class="stage-section"><h3>Gotchas</h3><ul>
+<li>Had to solve code duplication problem</li>
+<li>Important to maintain design consistency</li>
+</ul>
+</div><div class="stage-section"><h3>What was done</h3><ul class="what-done-list"><li>Created 6 specialized pages</li><li>Set up navigation between pages</li></ul></div><div class="stage-section"><div class="screenshots"><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/07-navigation.png" alt="Navigation menu between pages (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Navigation menu between pages (EN)</div></div></div></div></div><div class="stage" id="stage-2"><div class="stage-header"><div style="margin-bottom: 10px; font-size: 0.9em;"><a href="#stage-1" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Previous stage: Stage 2: Transition to Multi-page Architecture</a></div><h2 class="stage-title">Stage 3: Creating Common Function Library</h2></div><div class="stage-section"><h3>What was needed</h3><p>Code was duplicated between pages (functions for GC%, reverse complement, translation, etc.)</p>
+</div><div class="stage-section"><h3>Solution</h3><p>Created <code>common.js</code> with common functions:</p>
+<ul>
+<li><code>cleanSequence()</code> - sequence cleaning</li>
+<li><code>computeGC()</code> - GC% calculation</li>
+<li><code>reverseComplement()</code> - reverse complementary sequence</li>
+<li><code>translateDNA()</code> - DNA translation</li>
+<li><code>findORF()</code> - ORF finding</li>
+<li><code>computeMW()</code> - molecular weight</li>
+<li>And others...</li>
+</ul>
+</div><div class="stage-section"><h3>Why this solution</h3><ul>
+<li>DRY principle (Don&#39;t Repeat Yourself)</li>
+<li>Easier maintenance - changes in one place</li>
+<li>Smaller code size</li>
+<li>Result consistency</li>
+</ul>
+</div><div class="stage-section"><h3>Pros</h3><ul>
+<li>✅ No code duplication</li>
+<li>✅ Easy maintenance</li>
+<li>✅ Function consistency</li>
+<li>✅ Can reuse in future</li>
+</ul>
+</div><div class="stage-section"><h3>Cons</h3><ul>
+<li>❌ All pages depend on one file</li>
+<li>❌ Need to load <code>common.js</code> even if using one function</li>
+</ul>
+</div><div class="stage-section"><h3>Gotchas</h3><ul>
+<li>Important not to overload <code>common.js</code> with unnecessary code</li>
+<li>Need to maintain compatibility between pages</li>
+</ul>
+</div><div class="stage-section"><h3>What was done</h3><ul class="what-done-list"><li>Created <code>common.js</code> with common functions</li><li>All pages use common library</li><li>Eliminated code duplication between pages</li></ul></div></div><div class="stage" id="stage-3"><div class="stage-header"><div style="margin-bottom: 10px; font-size: 0.9em;"><a href="#stage-2" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Previous stage: Stage 3: Creating Common Function Library</a></div><h2 class="stage-title">Stage 4: Unified Style and Navigation</h2></div><div class="stage-section"><h3>What was needed</h3><p>Each page could have its own style, no navigation between pages.</p>
+</div><div class="stage-section"><h3>Solution</h3><ul>
+<li>Created unified <code>styles.css</code> for all pages</li>
+<li>Added <code>getNavigation()</code> function to <code>common.js</code></li>
+<li>Navigation menu on each page</li>
+</ul>
+</div><div class="stage-section"><h3>Why this solution</h3><ul>
+<li>Unified design = professional look</li>
+<li>Navigation improves UX and SEO (internal links)</li>
+<li>Users can easily switch between tools</li>
+</ul>
+</div><div class="stage-section"><h3>Pros</h3><ul>
+<li>✅ Professional appearance</li>
+<li>✅ Improved navigation</li>
+<li>✅ Internal links for SEO</li>
+<li>✅ Better UX</li>
+</ul>
+</div><div class="stage-section"><h3>Cons</h3><ul>
+<li>❌ If need to change design - change everywhere</li>
+<li>❌ Navigation adds some HTML to each page</li>
+</ul>
+</div><div class="stage-section"><h3>Gotchas</h3><ul>
+<li>Need to make navigation responsive for mobile</li>
+<li>Important not to overload pages with unnecessary elements</li>
+</ul>
+</div><div class="stage-section"><h3>What was done</h3><ul class="what-done-list"><li>Created unified <code>styles.css</code> for all pages</li><li>Added <code>getNavigation()</code> function to <code>common.js</code></li><li>Navigation menu on each page</li></ul></div><div class="stage-section"><div class="screenshots"><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/07-navigation.png" alt="Navigation menu on page (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Navigation menu on page (EN)</div></div></div></div></div><div class="stage" id="stage-4"><div class="stage-header"><div style="margin-bottom: 10px; font-size: 0.9em;"><a href="#stage-3" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Previous stage: Stage 4: Unified Style and Navigation</a></div><h2 class="stage-title">Stage 5: SEO Optimization for Each Page</h2></div><div class="stage-section"><h3>What was needed</h3><p>Pages were functional but not optimized for search engines.</p>
+</div><div class="stage-section"><h3>Solution</h3><p>For each page added:</p>
+<ul>
+<li>Unique <code>&lt;title&gt;</code> with keywords</li>
+<li><code>&lt;h1&gt;</code> with main keyword</li>
+<li>Meta description and keywords</li>
+<li>150-200 words SEO text with synonyms and internal links</li>
+<li>Schema markup (JSON-LD)</li>
+</ul>
+</div><div class="stage-section"><h3>Why this solution</h3><ul>
+<li>Each page should rank for its own keywords</li>
+<li>SEO text shows page relevance</li>
+<li>Internal links distribute &quot;weight&quot; between pages</li>
+<li>Schema markup helps search engines understand structure</li>
+</ul>
+</div><div class="stage-section"><h3>Pros</h3><ul>
+<li>✅ Better ranking in search engines</li>
+<li>✅ Each page optimized for its queries</li>
+<li>✅ More opportunities for organic traffic</li>
+<li>✅ Professional approach to SEO</li>
+</ul>
+</div><div class="stage-section"><h3>Cons</h3><ul>
+<li>❌ More text on page (but this is good for SEO)</li>
+<li>❌ Need to maintain SEO text relevance</li>
+</ul>
+</div><div class="stage-section"><h3>Gotchas</h3><ul>
+<li>Important not to over-optimize (keyword stuffing)</li>
+<li>SEO text should be natural and useful</li>
+<li>Need to balance between SEO and UX</li>
+</ul>
+</div><div class="stage-section"><h3>What was done</h3><ul class="what-done-list"><li>Added unique <code>&lt;title&gt;</code> and <code>&lt;h1&gt;</code> for each page</li><li>Added meta description and keywords</li><li>Added 150-200 words SEO text on each page</li><li>Added Schema markup (JSON-LD) for better structure understanding by search engines</li></ul></div></div><div class="stage" id="stage-5"><div class="stage-header"><div style="margin-bottom: 10px; font-size: 0.9em;"><a href="#stage-4" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Previous stage: Stage 5: SEO Optimization for Each Page</a></div><h2 class="stage-title">Stage 6: Adding Sequence Examples</h2></div><div class="stage-section"><h3>What was needed</h3><p>Users had to manually enter sequences to understand how the tool works.</p>
+</div><div class="stage-section"><h3>Solution</h3><p>Added &quot;Load Example&quot; button on each page with preset examples:</p>
+<ul>
+<li><strong>Sequence Analyzer (index.html)</strong>:</li>
+<li>DNA example: <code>ATGCGTACCTGACTGGAAGGCTTACGATGCTTGAAGACCTGA</code></li>
+<li>Protein example: <code>MKTFFVAGLVLAGALAAPALA</code></li>
+<li><strong>GC Calculator</strong>: <code>GCGGATCCGTCGATGCGGCCGTTAGCGCGATCATGGCCGCA</code></li>
+<li><strong>Reverse Complement</strong>: <code>ATGACCGTAAGCTTGGATCCGATTAAGC</code></li>
+<li><strong>ORF Finder</strong>: <code>ATGAAACGTTTGACCTGAAGGTTCTACTGGAATAG</code></li>
+<li><strong>Protein MW Calculator</strong>: <code>MQDRVKRPMNAFIVWSRDQRRKMALEN</code></li>
+<li><strong>DNA Translation</strong>: <code>ATGGCTTCTGACCTGAAGGACATCGTGAACTGG</code></li>
+</ul>
+</div><div class="stage-section"><h3>Why this solution</h3><ul>
+<li>Users can immediately see how the tool works</li>
+<li>No need to search for test sequences</li>
+<li>Improves UX and lowers entry barrier</li>
+</ul>
+</div><div class="stage-section"><h3>Pros</h3><ul>
+<li>✅ Improved UX</li>
+<li>✅ Quick understanding of functionality</li>
+<li>✅ No need to search for examples</li>
+</ul>
+</div><div class="stage-section"><h3>Cons</h3><ul>
+<li>❌ Slightly more code on each page</li>
+</ul>
+</div><div class="stage-section"><h3>Gotchas</h3><ul>
+<li>Important to choose representative examples</li>
+<li>Examples should demonstrate key functionality of each page</li>
+</ul>
+</div><div class="stage-section"><h3>What was done</h3><ul class="what-done-list"><li>Added &quot;Load Example&quot; button on each page</li><li>Selected representative examples for each tool</li></ul></div><div class="stage-section"><div class="screenshots"><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/01-main-page.png" alt="Main page with DNA analysis example (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Main page with DNA analysis example (EN)</div></div><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/02-gc-calculator.png" alt="GC calculator with sequence example (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">GC calculator with sequence example (EN)</div></div><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/03-reverse-complement.png" alt="Reverse complement with example (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Reverse complement with example (EN)</div></div><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/04-orf-finder.png" alt="ORF finder with detected ORF (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">ORF finder with detected ORF (EN)</div></div><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/05-protein-mw-calculator.png" alt="Protein MW calculator with example (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Protein MW calculator with example (EN)</div></div><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/06-dna-translation.png" alt="DNA translation with translation example (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">DNA translation with translation example (EN)</div></div></div></div></div><div class="stage" id="stage-6"><div class="stage-header"><div style="margin-bottom: 10px; font-size: 0.9em;"><a href="#stage-5" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Previous stage: Stage 6: Adding Sequence Examples</a></div><h2 class="stage-title">Stage 7: Adding New Tools and Improving Navigation</h2></div><div class="stage-section"><h3>What was needed</h3><p>Site had 6 pages, but to increase organic traffic needed to add more specialized tools. Navigation with 11 buttons was overloaded.</p>
+</div><div class="stage-section"><h3>Solution</h3><ul>
+<li>Added 5 new specialized pages:</li>
+<li><strong>Codon Usage Calculator</strong> - codon usage frequency analysis</li>
+<li><strong>FASTA Validator</strong> - FASTA file format validation</li>
+<li><strong>RNA to Protein Translator</strong> - RNA sequence translation to proteins</li>
+<li><strong>Peptide Length Calculator</strong> - peptide length calculation</li>
+<li><strong>Amino Acid Composition Tool</strong> - amino acid composition analysis</li>
+</ul>
+<ul>
+<li>Improved navigation:</li>
+<li>Main 6 tools remained in main navigation</li>
+<li>Additional 5 tools moved to &quot;More Tools&quot; dropdown menu</li>
+<li>Added touch device support for mobile</li>
+</ul>
+</div><div class="stage-section"><h3>Why this solution</h3><ul>
+<li>More pages = more ranking opportunities in search engines</li>
+<li>Each new page optimized for its keywords</li>
+<li>Compact navigation improves UX</li>
+<li>Dropdown menu allows keeping clean interface</li>
+</ul>
+</div><div class="stage-section"><h3>Pros</h3><ul>
+<li>✅ Increased page count from 6 to 11 (+83%)</li>
+<li>✅ Each page has unique SEO meta and texts</li>
+<li>✅ Compact navigation doesn&#39;t overload interface</li>
+<li>✅ All tools remain accessible</li>
+<li>✅ Improved mobile device support</li>
+</ul>
+</div><div class="stage-section"><h3>Cons</h3><ul>
+<li>❌ More pages to maintain</li>
+<li>❌ Need to update sitemap when adding new pages</li>
+</ul>
+</div><div class="stage-section"><h3>Gotchas</h3><ul>
+<li>Important to maintain design consistency on all new pages</li>
+<li>Dropdown menu must work on all devices (desktop and mobile)</li>
+<li>Need to solve problem with menu closing when moving cursor</li>
+</ul>
+</div><div class="stage-section"><h3>What was done</h3><ul class="what-done-list"><li>Created 5 new HTML pages with full functionality</li><li>Added sequence examples on each page</li><li>Updated navigation in <code>common.js</code> with dropdown menu</li><li>Added CSS styles for dropdown menu</li><li>Implemented touch device support</li><li>Updated <code>sitemap.xml</code> (now 11 pages)</li><li>All new pages added to Google Search Console verification</li></ul></div></div>
+        
+        <footer><p><a href="../index.html" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Other projects</a></p></footer>
+    </div>
+    
+    <script>
+        function openScreenshotInNewWindow(imageId) {
+            const img = document.getElementById(imageId);
+            const imageSrc = img.getAttribute('data-full-image');
+            // Открываем изображение в новом окне
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>${img.alt}</title>
+                    <style>
+                        body {
+                            margin: 0;
+                            padding: 20px;
+                            background: #1a1a1a;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            min-height: 100vh;
+                        }
+                        img {
+                            max-width: 100%;
+                            max-height: 100vh;
+                            object-fit: contain;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <img src="${imageSrc}" alt="${img.alt}">
+                </body>
+                </html>
+            `);
+            newWindow.document.close();
+        }
+        
+        // Добавляем обработчик клика на изображения при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            const tallImages = document.querySelectorAll('.screenshot-tall');
+            tallImages.forEach(img => {
+                img.addEventListener('click', function() {
+                    openScreenshotInNewWindow(img.id);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

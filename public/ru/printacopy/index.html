@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="FjUZ6hoHjNAZ783fB-eBOua9Up64i7T4vHaloHMWYVY" />
+    <title>printacopy - Дневник разработки</title>
+    <meta name="description" content="Боль: надо быстро что-то распечатать, а принтера под рукой нет. Заводить принтер ради одной странички - нерентабельно.  При этом вокруг полно мест, где стоят по">
+    <meta name="keywords" content="printacopy, разработка, дневник разработки, стартап">
+    <link rel="canonical" href="https://printacopy.pages.dev">
+    <meta property="og:url" content="https://printacopy.pages.dev">
+    <meta name="twitter:url" content="https://printacopy.pages.dev">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        
+        .language-switcher a {
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            margin: 0 5px;
+            transition: background 0.3s;
+            display: inline-block;
+        }
+        
+        .language-switcher a:hover {
+            background: #2980b9;
+        }
+        
+        .language-switcher a.active {
+            background: #2c3e50;
+        }
+        
+        .back-link {
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+        
+        .back-link a {
+            color: #3498db;
+            text-decoration: none;
+            border-bottom: 1px solid #3498db;
+        }
+        
+        .back-link a:hover {
+            border-bottom-color: #2980b9;
+        }
+        
+        .stage {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .stage:last-child {
+            border-bottom: none;
+        }
+        
+        .stage-header {
+            margin-bottom: 20px;
+        }
+        
+        .stage-date {
+            color: #95a5a6;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .stage-title {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        
+        .stage-section {
+            margin-bottom: 25px;
+        }
+        
+        .stage-section h3 {
+            color: #34495e;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .stage-section p {
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+        
+        .stage-section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .stage-section li {
+            margin-bottom: 8px;
+        }
+        
+        .screenshots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .screenshot {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .screenshot img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .screenshot-tall-wrapper {
+            position: relative;
+        }
+        
+        .screenshot-tall {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .screenshot-tall:hover {
+            opacity: 0.8;
+        }
+        
+        .screenshot-expand {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background 0.3s;
+            z-index: 10;
+        }
+        
+        .screenshot-expand:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        .screenshot-caption {
+            padding: 10px;
+            background: #f8f9fa;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+        
+        .what-done-list {
+            list-style: none;
+            margin-left: 0;
+        }
+        
+        .what-done-list li {
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .what-done-list li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+        
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .stage-title {
+                font-size: 1.5em;
+            }
+            
+            .screenshots {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="language-switcher">
+            <a href="index.html" class="active">RU</a>
+            <a href="../../en/printacopy/index.html" class="">EN</a>
+        </div>
+        
+        <div class="back-link"><a href="../index.html">← Другие проекты</a></div>
+        
+        <h1>printacopy</h1>
+        <p class="subtitle">Дневник разработки</p>
+        
+        <div class="stage-section" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 40px;"><h3 style="margin-top: 0;">О проекте</h3><div id="project-description-printacopy-log-short" style="display: block;"><p>Боль: надо быстро что-то распечатать, а принтера под рукой нет. Заводить принтер ради одной странички - нерентабельно.  При этом вокруг полно мест, где стоят почти неиспользуемые принтеры — в офисах, коворкингах, кафе, у частных людей.</p>
+<p>Отсюда появилась мысль: <strong>свести тех, кому нужно печатать, и тех, у кого есть принтер</strong>.</p>
+<h2>А дальше?</h2>
+<p>Сначала думал о приложении и сложной системе с регистрацией, но быстро пришли к пониманию, что это избыточно.</p>
+<p>Главное сейчас — проверить спрос и собрать базу.</p>
+<p>Поэтому идея упростилась до <strong>лендинга с формой</strong>, где можно оставить контакты:</p> <a href="#" onclick="document.getElementById('project-description-printacopy-log-short').style.display='none'; document.getElementById('project-description-printacopy-log-full').style.display='block'; return false;" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">Читать далее</a></div><div id="project-description-printacopy-log-full" style="display: none;"><p>Боль: надо быстро что-то распечатать, а принтера под рукой нет. Заводить принтер ради одной странички - нерентабельно.  При этом вокруг полно мест, где стоят почти неиспользуемые принтеры — в офисах, коворкингах, кафе, у частных людей.</p>
+<p>Отсюда появилась мысль: <strong>свести тех, кому нужно печатать, и тех, у кого есть принтер</strong>.</p>
+<h2>А дальше?</h2>
+<p>Сначала думал о приложении и сложной системе с регистрацией, но быстро пришли к пониманию, что это избыточно.</p>
+<p>Главное сейчас — проверить спрос и собрать базу.</p>
+<p>Поэтому идея упростилась до <strong>лендинга с формой</strong>, где можно оставить контакты:</p>
+<ul>
+<li>“Мне нужно печатать”</li>
+<li>“У меня есть принтер”</li>
+</ul>
+<h2>К чему пришли</h2>
+<ul>
+<li>Начинать нужно с <strong>одного города / района</strong>, иначе база размажется.</li>
+<li>Первая версия — <strong>простой SEO-лендинг</strong>, а не полноценный сервис.</li>
+<li>Базу принтеров лучше набивать <strong>ручным и полуавтоматическим outreach’ем</strong> (коворкинги, офисы, кафе).</li>
+<li>Регистрацию и backend пока не делаем — только сбор контактов и интереса.</li>
+</ul>
+<h2>Что дальше (очень коротко)</h2>
+<ul>
+<li>Сделать лендинг и формы (собираем e-mails с двух сторон).</li>
+<li>Собрать первых 10–20 владельцев принтеров в одном городе.</li>
+<li>Повесить простые SEO-страницы под локальные запросы.</li>
+<li>После появления первых подтверждённых точек — переходить к MVP с загрузкой PDF и FastAPI backend.</li>
+</ul>
+ <a href="#" onclick="document.getElementById('project-description-printacopy-log-full').style.display='none'; document.getElementById('project-description-printacopy-log-short').style.display='block'; return false;" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">Свернуть</a></div></div>
+        
+        <p>Текущая реализация на: <a href="https://printacopy.pages.dev" target="_blank" rel="noopener noreferrer">https://printacopy.pages.dev</a></p>
+        
+        <div class="stage-section" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 40px;"><h3 style="margin-top: 0;">Оглавление</h3><ul style="list-style: none; padding-left: 0;"><li style="margin-bottom: 10px;"><a href="#stage-0" style="color: #2c3e50; text-decoration: none; border-bottom: 1px solid #3498db; padding-bottom: 2px;">Интеграция email и дополнительные функции</a></li><li style="margin-bottom: 10px;"><a href="#stage-1" style="color: #2c3e50; text-decoration: none; border-bottom: 1px solid #3498db; padding-bottom: 2px;">Создание статического лендинга</a></li></ul></div>
+        
+        <div class="stage" id="stage-0"><div class="stage-header"><h2 class="stage-title">Интеграция email и дополнительные функции</h2></div><div class="stage-section"><h3>Что было</h3><p>После создания базового лендинга нужно было добавить:</p>
+<ul>
+<li>Многоязычность (русский, английский, немецкий)</li>
+<li>Автодополнение городов</li>
+<li>Интеграцию с email для отправки подтверждений</li>
+<li>Улучшения UX (favicon, переключатель языков)</li>
+</ul>
+</div><div class="stage-section"><h3>Решение</h3><h2>1. Многоязычность</h2>
+<p>Добавлена поддержка трёх языков (DE/EN/RU) с автоматическим определением языка по:</p>
+<ul>
+<li>URL параметру (<code>?lang=de</code>)</li>
+<li>Сохранённым настройкам в localStorage</li>
+<li>Языку браузера</li>
+<li>IP-адресу (через ipapi.co)</li>
+</ul>
+<div class="screenshot" style="margin: 20px 0;"><img src="screenshots/06-language-switcher.png" alt="Language switcher (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Language switcher (EN)</div></div><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/06-language-switcher.png" alt="Переключатель языков (RU)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Переключатель языков (RU)</div></div><h2>2. Автодополнение городов</h2>
+<p>Добавлен справочник из 80+ немецких городов с автодополнением при вводе. По умолчанию установлен город &quot;Konstanz&quot;.</p>
+<div class="screenshot" style="margin: 20px 0;"><img src="screenshots/07-city-autocomplete.png" alt="City autocomplete (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">City autocomplete (EN)</div></div><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/07-city-autocomplete.png" alt="Автодополнение городов (RU)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Автодополнение городов (RU)</div></div><h2>3. Интеграция с email через Cloudflare Worker + Resend</h2>
+<p>Реализована отправка email подтверждений через Cloudflare Worker с использованием Resend API:</p>
+<ul>
+<li>В тестовом режиме все письма приходят на админский email</li>
+<li>Админ получает уведомления о новых регистрациях со всеми данными для таблицы</li>
+<li>Пользователю показывается алерт: &quot;Мы получили твой email и свяжемся с тобой&quot;</li>
+</ul>
+<div class="screenshot" style="margin: 20px 0;"><img src="screenshots/08-email-form.png" alt="Email form (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Email form (EN)</div></div><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/08-email-form.png" alt="Форма отправки (RU)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Форма отправки (RU)</div></div><h2>4. Дополнительные улучшения</h2>
+<ul>
+<li>Добавлен favicon (SVG с буквой &quot;P&quot;)</li>
+<li>Обновлены немецкие переводы (использование &quot;ты&quot; и безличных форм)</li>
+<li>Добавлен динамический заголовок страницы в зависимости от языка</li>
+</ul>
+</div><div class="stage-section"><h3>Почему такое решение</h3><ul>
+<li><strong>Cloudflare Worker + Resend</strong>: Простая настройка, бесплатный лимит 3,000 писем/месяц, не требует домена для тестового режима</li>
+<li><strong>Многоязычность через URL параметры</strong>: Простое решение без серверной логики, легко тестировать и деплоить</li>
+<li><strong>Автодополнение через datalist</strong>: Нативное HTML решение, не требует внешних библиотек</li>
+</ul>
+</div><div class="stage-section"><h3>Плюсы</h3><ul>
+<li>✅ Полная многоязычность без дополнительных зависимостей</li>
+<li>✅ Работающая интеграция с email (тестовый режим)</li>
+<li>✅ Улучшенный UX (автодополнение, favicon, переключатель языков)</li>
+<li>✅ Автоматическое определение языка пользователя</li>
+<li>✅ Все данные сохраняются для последующей ручной рассылки</li>
+</ul>
+</div><div class="stage-section"><h3>Минусы</h3><ul>
+<li>❌ В тестовом режиме Resend письма не отправляются пользователям (только админу)</li>
+<li>❌ Для продакшена нужно верифицировать домен в Resend</li>
+<li>❌ Нет автоматической рассылки пользователям (нужно вручную)</li>
+</ul>
+</div><div class="stage-section"><h3>Подводные камни</h3><ul>
+<li>Resend в тестовом режиме ограничивает отправку только на верифицированный email</li>
+<li>Решение: пока все письма приходят админу, который собирает данные в таблицу для ручной рассылки</li>
+<li>IP-определение языка может быть неточным, поэтому используется каскад: URL → localStorage → браузер → IP → дефолт (DE)</li>
+</ul>
+</div><div class="stage-section"><h3>Что сделано</h3><ul class="what-done-list"><li>Добавлена поддержка трёх языков (DE/EN/RU)</li><li>Реализован переключатель языков (dropdown)</li><li>Добавлено автоматическое определение языка</li><li>Реализовано автодополнение городов (80+ немецких городов)</li><li>Установлен город &quot;Konstanz&quot; по умолчанию</li><li>Интегрирован Cloudflare Worker для отправки email</li><li>Настроен Resend API для отправки писем</li><li>Добавлен favicon</li><li>Обновлены переводы (немецкий на &quot;ты&quot;/безличные формы)</li><li>Динамический заголовок страницы</li></ul></div></div><div class="stage" id="stage-1"><div class="stage-header"><div style="margin-bottom: 10px; font-size: 0.9em;"><a href="#stage-0" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Предыдущий этап: Интеграция email и дополнительные функции</a></div><h2 class="stage-title">Создание статического лендинга</h2></div><div class="stage-section"><h3>Что было</h3><p>Нужно было создать простой статический сайт-лендинг, который продаёт идею сервиса обеим сторонам (пользователям и владельцам принтеров).</p>
+</div><div class="stage-section"><h3>Решение</h3><p>Создан одностраничный лендинг с 4 основными блоками:</p>
+<ul>
+<li>Хедер с призывом к действию и двумя кнопками</li>
+</ul>
+<div class="screenshot" style="margin: 20px 0;"><img src="screenshots/01-hero-header.png" alt="Главная страница (RU)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Главная страница (RU)</div></div><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/01-hero-header.png" alt="Main page (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Main page (EN)</div></div><ul>
+<li>Блок для пользователей (форма: город + email + загрузка файла)</li>
+</ul>
+<div class="screenshot" style="margin: 20px 0;"><img src="screenshots/02-user-section.png" alt="Блок для пользователей (RU)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Блок для пользователей (RU)</div></div><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/02-user-section.png" alt="User section (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">User section (EN)</div></div><ul>
+<li>Блок для владельцев принтеров (форма: имя + email + город + чекбокс цветного принтера)</li>
+</ul>
+<div class="screenshot" style="margin: 20px 0;"><img src="screenshots/03-printer-section.png" alt="Блок для владельцев принтеров (RU)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Блок для владельцев принтеров (RU)</div></div><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/03-printer-section.png" alt="Printer section (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Printer section (EN)</div></div><ul>
+<li>Блок &quot;Как это работает&quot; с простой схемой процесса</li>
+</ul>
+<div class="screenshot" style="margin: 20px 0;"><img src="screenshots/04-how-it-works.png" alt="Как это работает (RU)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Как это работает (RU)</div></div><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/04-how-it-works.png" alt="How it works (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">How it works (EN)</div></div><p>Мобильная версия:</p>
+<div class="screenshot" style="margin: 20px 0;"><img src="screenshots/05-mobile-view.png" alt="Мобильная версия (RU)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Мобильная версия (RU)</div></div><div class="screenshot" style="margin: 20px 0;"><img src="screenshots/05-mobile-view.png" alt="Mobile view (EN)" style="max-width: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;"><div class="screenshot-caption">Mobile view (EN)</div></div></div><div class="stage-section"><h3>Почему такое решение</h3><ul>
+<li>Статический сайт без зависимостей — быстрая загрузка и простота деплоя</li>
+<li>Vanilla JavaScript и CSS — нет необходимости в сборке, можно открыть файл напрямую</li>
+<li>LocalStorage для хранения данных форм — позволяет протестировать функционал без бэкенда</li>
+<li>Адаптивный дизайн — работает на всех устройствах</li>
+<li>Современный UI с градиентами и анимациями — привлекательный внешний вид</li>
+</ul>
+</div><div class="stage-section"><h3>Плюсы</h3><ul>
+<li>✅ Быстрая разработка и деплой</li>
+<li>✅ Нет зависимостей, нет build процесса</li>
+<li>✅ Можно открыть файл напрямую в браузере для тестирования</li>
+<li>✅ Легко кастомизировать и изменять</li>
+<li>✅ Хорошая производительность (маленький размер файлов)</li>
+</ul>
+</div><div class="stage-section"><h3>Минусы</h3><ul>
+<li>❌ Данные форм хранятся только локально (в LocalStorage браузера)</li>
+<li>❌ Нет реальной отправки данных на сервер</li>
+<li>❌ Нет валидации на стороне сервера</li>
+<li>❌ Нет защиты от спама</li>
+</ul>
+</div><div class="stage-section"><h3>Подводные камни</h3><ul>
+<li>Учли, что это MVP для демонстрации идеи, а не полноценный продукт</li>
+<li>Формы работают &quot;фейково&quot; — показывают alert и сохраняют в LocalStorage</li>
+<li>В будущем нужно будет добавить бэкенд для реальной обработки данных</li>
+<li>Сделали адаптивный дизайн с самого начала, чтобы не переделывать позже</li>
+</ul>
+</div><div class="stage-section"><h3>Что сделано</h3><ul class="what-done-list"><li>Создан одностраничный лендинг (index.html)</li><li>Реализованы все 4 блока согласно требованиям</li><li>Добавлены две рабочие формы (для пользователей и владельцев принтеров)</li><li>Реализован адаптивный дизайн для мобильных устройств</li><li>Добавлена плавная прокрутка к секциям</li><li>Формы сохраняют данные в LocalStorage (демо-режим)</li><li>Современный UI с градиентами и анимациями</li></ul></div></div>
+        
+        <footer><p><a href="../index.html" style="color: #3498db; text-decoration: none; border-bottom: 1px solid #3498db;">← Другие проекты</a></p></footer>
+    </div>
+    
+    <script>
+        function openScreenshotInNewWindow(imageId) {
+            const img = document.getElementById(imageId);
+            const imageSrc = img.getAttribute('data-full-image');
+            // Открываем изображение в новом окне
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>${img.alt}</title>
+                    <style>
+                        body {
+                            margin: 0;
+                            padding: 20px;
+                            background: #1a1a1a;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            min-height: 100vh;
+                        }
+                        img {
+                            max-width: 100%;
+                            max-height: 100vh;
+                            object-fit: contain;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <img src="${imageSrc}" alt="${img.alt}">
+                </body>
+                </html>
+            `);
+            newWindow.document.close();
+        }
+        
+        // Добавляем обработчик клика на изображения при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            const tallImages = document.querySelectorAll('.screenshot-tall');
+            tallImages.forEach(img => {
+                img.addEventListener('click', function() {
+                    openScreenshotInNewWindow(img.id);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
